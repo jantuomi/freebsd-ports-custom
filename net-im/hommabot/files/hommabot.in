@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# PROVIDE: hommabot
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="hommabot"
+rcvar="hommabot_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config $name
+
+: ${hommabot_enable:="NO"}
+: ${hommabot_token_file:="%%PREFIX%%/etc/hommabot.token"}
+: ${hommabot_data_dir:="/var/db/hommabot"}
+: ${hommabot_tz:="Europe/Helsinki"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+hommabot_start()
+{
+    if [ ! -f "${hommabot_token_file}" ]; then
+        echo "${name}: token file ${hommabot_token_file} not found"
+        return 1
+    fi
+    echo "Starting ${name}..."
+    BOT_TOKEN=$(cat "${hommabot_token_file}")
+    if [ -z "${BOT_TOKEN}" ]; then
+        echo "${name}: token file ${hommabot_token_file} is empty"
+        return 1
+    fi
+    cd %%PREFIX%%/hommabot
+    if [ ! -d "%%PREFIX%%/hommabot/node_modules" ]; then
+        echo "${name}: installing dependencies (first run)..."
+        npm ci --prefix %%PREFIX%%/hommabot || {
+            echo "${name}: npm ci failed"
+            return 1
+        }
+    fi
+    mkdir -p "${hommabot_data_dir}"
+    chmod -R 770 "${hommabot_data_dir}"
+    daemon -p ${pidfile} -o /var/log/hommabot.log env \
+        PATH=%%PREFIX%%/bin:/usr/local/bin:/usr/bin:/bin \
+        TELEGRAM_BOT_TOKEN="${BOT_TOKEN}" \
+        SQLITE_PATH="${hommabot_data_dir}/db.sqlite3" \
+        TZ="${hommabot_tz}" \
+        npm start
+
+
+    for i in $(seq 5); do
+        sleep 1
+        if [ ! -f ${pidfile} ]; then
+            echo "Failed to start ${name}"
+            return 1
+        fi
+    done
+}
+
+hommabot_stop()
+{
+    if [ -f ${pidfile} ]; then
+        echo "Stopping ${name}..."
+        kill $(cat ${pidfile}) 2>/dev/null
+        rm -f ${pidfile}
+    fi
+}
+
+hommabot_status()
+{
+    if [ -f ${pidfile} ] && kill -0 $(cat ${pidfile}) 2>/dev/null; then
+        echo "${name} is running as pid $(cat ${pidfile})"
+    else
+        echo "${name} is not running"
+        return 1
+    fi
+}
+
+run_rc_command "$1"

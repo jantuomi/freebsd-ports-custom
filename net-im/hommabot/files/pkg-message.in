@@ -1,0 +1,31 @@
+[
+  {
+    type: install
+    message: <<EOM
+========================================================================
+
+Hommabot requires a Telegram bot token.
+
+Create the token file:
+
+  install -m 600 /dev/null %%PREFIX%%/etc/hommabot.token
+
+Then edit it:
+
+  ee %%PREFIX%%/etc/hommabot.token
+
+Then enable the service and configure settings:
+
+  sysrc hommabot_enable=YES
+  sysrc hommabot_data_dir=/var/db/hommabot
+  sysrc hommabot_token_file=%%PREFIX%%/etc/hommabot.token
+  sysrc hommabot_tz=Europe/Helsinki
+
+Start the service:
+
+  service hommabot start
+
+========================================================================
+EOM
+  }
+]

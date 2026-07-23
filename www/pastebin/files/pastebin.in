@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# PROVIDE: pastebin
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="pastebin"
+rcvar="pastebin_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config "$name"
+
+: ${pastebin_enable:="NO"}
+: ${pastebin_listen:="0.0.0.0:80"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+pastebin_start()
+{
+	echo "Starting ${name}..."
+	daemon -p "${pidfile}" -o /var/log/pastebin.log \
+		%%PREFIX%%/bin/pastebin "${pastebin_listen}"
+}
+
+pastebin_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}..."
+		kill "$(cat "${pidfile}")" 2>/dev/null
+		rm -f "${pidfile}"
+	fi
+}
+
+pastebin_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")"
+	else
+		echo "${name} is not running"
+		return 1
+	fi
+}
+
+run_rc_command "$1"

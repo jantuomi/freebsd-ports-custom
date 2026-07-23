@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# PROVIDE: taulubot
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="taulubot"
+rcvar="taulubot_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config "$name"
+
+: ${taulubot_enable:="NO"}
+: ${taulubot_token_file:="%%PREFIX%%/etc/taulubot.token"}
+: ${taulubot_photos_dir:="/var/db/taulubot"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+taulubot_start()
+{
+	if [ ! -f "${taulubot_token_file}" ]; then
+		echo "${name}: token file ${taulubot_token_file} not found"
+		return 1
+	fi
+
+	BOT_TOKEN=$(cat "${taulubot_token_file}")
+
+	if [ -z "${BOT_TOKEN}" ]; then
+		echo "${name}: token file ${taulubot_token_file} is empty"
+		return 1
+	fi
+
+	echo "Starting ${name}..."
+
+	cd %%PREFIX%%/taulubot/app || return 1
+
+	mkdir -p "${taulubot_photos_dir}"
+	chmod 770 "${taulubot_photos_dir}"
+
+	daemon -p "${pidfile}" -o /var/log/taulubot.log env \
+		PATH=%%PREFIX%%/bin:/usr/local/bin:/usr/bin:/bin \
+		PYTHONPATH=%%PREFIX%%/taulubot/vendor:%%PREFIX%%/taulubot/app \
+		BOT_TOKEN="${BOT_TOKEN}" \
+		PHOTOS_DIR="${taulubot_photos_dir}" \
+		%%PYTHON_CMD%% %%PREFIX%%/taulubot/app/taulubot.py
+
+	i=0
+	while [ "${i}" -lt 5 ]; do
+		sleep 1
+		if [ ! -f "${pidfile}" ]; then
+			echo "Failed to start ${name}"
+			return 1
+		fi
+		i=$((i + 1))
+	done
+}
+
+taulubot_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}..."
+		kill "$(cat "${pidfile}")" 2>/dev/null
+		rm -f "${pidfile}"
+	fi
+}
+
+taulubot_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")"
+	else
+		echo "${name} is not running"
+		return 1
+	fi
+}
+
+run_rc_command "$1"

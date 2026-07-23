@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# PROVIDE: expense_tracker
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="expense_tracker"
+rcvar="expense_tracker_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config "$name"
+
+: ${expense_tracker_enable:="NO"}
+: ${expense_tracker_host:="0.0.0.0"}
+: ${expense_tracker_port:="80"}
+: ${expense_tracker_base_url:="http://localhost"}
+: ${expense_tracker_db:="/var/db/expense-tracker/expenses.db"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+expense_tracker_start()
+{
+	echo "Starting ${name}..."
+	daemon -p "${pidfile}" -o /var/log/expense-tracker.log env \
+		PATH=%%PREFIX%%/bin:/usr/bin:/bin \
+		HOST="${expense_tracker_host}" \
+		PORT="${expense_tracker_port}" \
+		BASE_URL="${expense_tracker_base_url}" \
+		DB="${expense_tracker_db}" \
+		%%PYTHON_CMD%% %%PREFIX%%/expense-tracker/app.py
+}
+
+expense_tracker_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}..."
+		kill "$(cat "${pidfile}")" 2>/dev/null
+		rm -f "${pidfile}"
+	fi
+}
+
+expense_tracker_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")"
+	else
+		echo "${name} is not running"
+		return 1
+	fi
+}
+
+run_rc_command "$1"

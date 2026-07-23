@@ -1,0 +1,2 @@
+Python port of Browserscope's user agent parser. This library parses
+HTTP User-Agent strings into their component parts (browser, OS, device).

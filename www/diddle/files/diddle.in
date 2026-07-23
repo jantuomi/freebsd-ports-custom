@@ -1,0 +1,71 @@
+#!/bin/sh
+
+# PROVIDE: diddle
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="diddle"
+rcvar="diddle_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config "$name"
+
+: ${diddle_enable:="NO"}
+: ${diddle_env_file:="%%PREFIX%%/etc/diddle.env"}
+: ${diddle_bind:="0.0.0.0:8000"}
+: ${diddle_workers:="4"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+diddle_start()
+{
+	if [ ! -f "${diddle_env_file}" ]; then
+		echo "${name}: env file ${diddle_env_file} not found"
+		return 1
+	fi
+
+	echo "Starting ${name}..."
+
+	cd %%PREFIX%%/diddle/app || return 1
+
+	# Run migrations
+	daemon -f env \
+		PYTHONPATH=%%PREFIX%%/diddle/vendor:%%PREFIX%%/diddle/app \
+		%%PYTHON_CMD%% %%PREFIX%%/diddle/app/apply_migrations.py
+
+	sleep 1
+
+	daemon -p "${pidfile}" -o /var/log/diddle.log env \
+		PATH=%%PREFIX%%/bin:/usr/local/bin:/usr/bin:/bin \
+		PYTHONPATH=%%PREFIX%%/diddle/vendor:%%PREFIX%%/diddle/app \
+		ENV_FILE="${diddle_env_file}" \
+		%%PREFIX%%/diddle/vendor/bin/gunicorn \
+		--bind "${diddle_bind}" \
+		-w "${diddle_workers}" \
+		app:app
+}
+
+diddle_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}..."
+		kill "$(cat "${pidfile}")" 2>/dev/null
+		rm -f "${pidfile}"
+	fi
+}
+
+diddle_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")"
+	else
+		echo "${name} is not running"
+		return 1
+	fi
+}
+
+run_rc_command "$1"

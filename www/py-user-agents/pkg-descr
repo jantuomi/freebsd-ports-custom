@@ -1,0 +1,2 @@
+A library to identify devices (phones, tablets) and their capabilities
+by parsing browser user agent strings.

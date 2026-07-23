@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# PROVIDE: aggro
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="aggro"
+rcvar="aggro_enable"
+pidfile="/var/run/${name}.pid"
+
+load_rc_config "$name"
+
+: ${aggro_enable:="NO"}
+: ${aggro_env_file:="%%PREFIX%%/etc/aggro.env"}
+: ${aggro_config:="%%PREFIX%%/etc/Aggrofile"}
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+aggro_start()
+{
+	if [ ! -f "${aggro_env_file}" ]; then
+		echo "${name}: env file ${aggro_env_file} not found"
+		return 1
+	fi
+
+	if [ ! -f "${aggro_config}" ]; then
+		echo "${name}: config file ${aggro_config} not found"
+		return 1
+	fi
+
+	echo "Starting ${name}..."
+
+	cd %%PREFIX%%/aggro || return 1
+
+	daemon -p "${pidfile}" -o /var/log/aggro.log env \
+		PATH=%%PREFIX%%/bin:/usr/bin:/bin \
+		PYTHONPATH=%%PREFIX%%/aggro/vendor:%%PREFIX%%/aggro \
+		AGGRO_CONFIG_PATH="${aggro_config}" \
+		%%PYTHON_CMD%% %%PREFIX%%/aggro/aggro.py
+}
+
+aggro_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}..."
+		kill "$(cat "${pidfile}")" 2>/dev/null
+		rm -f "${pidfile}"
+	fi
+}
+
+aggro_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")"
+	else
+		echo "${name} is not running"
+		return 1
+	fi
+}
+
+run_rc_command "$1"

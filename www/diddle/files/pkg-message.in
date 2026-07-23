@@ -1,0 +1,31 @@
+[
+  {
+    type: install
+    message: <<EOM
+========================================================================
+
+Diddle requires an environment file for configuration.
+
+Create the env file:
+
+  install -m 600 /dev/null %%PREFIX%%/etc/diddle.env
+
+Then edit it with your settings (DATABASE_URL, SECRET_KEY, etc.):
+
+  ee %%PREFIX%%/etc/diddle.env
+
+Then enable the service and configure settings:
+
+  sysrc diddle_enable=YES
+  sysrc diddle_env_file=%%PREFIX%%/etc/diddle.env
+  sysrc diddle_bind="0.0.0.0:8000"
+  sysrc diddle_workers=4
+
+Start the service:
+
+  service diddle start
+
+========================================================================
+EOM
+  }
+]

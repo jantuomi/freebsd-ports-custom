@@ -1,0 +1,30 @@
+[
+  {
+    type: install
+    message: <<EOM
+========================================================================
+
+Taulubot requires a Telegram bot token.
+
+Create the token file:
+
+  install -m 600 /dev/null %%PREFIX%%/etc/taulubot.token
+
+Then edit it:
+
+  ee %%PREFIX%%/etc/taulubot.token
+
+Then enable the service and configure settings:
+
+  sysrc taulubot_enable=YES
+  sysrc taulubot_photos_dir=/var/db/taulubot
+  sysrc taulubot_token_file=%%PREFIX%%/etc/taulubot.token
+
+Start the service:
+
+  service taulubot start
+
+========================================================================
+EOM
+  }
+]
