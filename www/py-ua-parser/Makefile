@@ -10,7 +10,8 @@ WWW=		https://github.com/ua-parser/uap-python
 
 LICENSE=	APACHE20
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}setuptools>0:devel/py-setuptools@${PY_FLAVOR}
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}setuptools>0:devel/py-setuptools@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}yaml>0:devel/py-pyyaml@${PY_FLAVOR}
 
 USES=		python:3.11+
 USE_PYTHON=	distutils autoplist
