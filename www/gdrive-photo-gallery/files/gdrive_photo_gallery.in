@@ -35,8 +35,8 @@ gdrive_photo_gallery_start()
 	export DATA_PREFIX="${gdrive_photo_gallery_data_prefix}"
 
 	daemon -p "${pidfile}" -o /var/log/gdrive-photo-gallery.log \
-		%%PREFIX%%/bin/uv run --directory %%PREFIX%%/gdrive-photo-gallery \
-		gunicorn --bind 0.0.0.0:80 app:app -w 1
+		%%PREFIX%%/bin/gunicorn --chdir %%PREFIX%%/gdrive-photo-gallery \
+		--bind 0.0.0.0:80 app:app -w 1
 }
 
 gdrive_photo_gallery_stop()

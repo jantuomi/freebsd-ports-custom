@@ -17,8 +17,13 @@ NO_ARCH=	yes
 NO_BUILD=	yes
 
 USES=		python:3.12+
-RUN_DEPENDS=	${PYTHON_CMD}:lang/python${PYTHON_SUFFIX} \
-		uv:devel/uv
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}apscheduler>0:devel/py-apscheduler@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}flask>0:www/py-flask@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}Flask-Compress>0:www/py-flask-compress@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}gunicorn>0:www/py-gunicorn@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}pillow>0:graphics/py-pillow@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}python-dotenv>0:www/py-python-dotenv@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}requests>0:www/py-requests@${PY_FLAVOR}
 
 SUB_LIST=	PYTHON_CMD=${PYTHON_CMD}
 
