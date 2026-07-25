@@ -13,6 +13,8 @@ GH_ACCOUNT=	jantuomi
 GH_PROJECT=	hommabot2
 GH_TAGNAME=	f7e272ab8726ed6a205b46d6723cc91aa9d63be1
 
+NO_CHECKSUM=	yes
+
 USES=		nodejs:24,build,run \
 		npm:npm,fetch,extract,build
 
