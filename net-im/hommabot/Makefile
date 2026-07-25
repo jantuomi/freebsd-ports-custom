@@ -15,7 +15,8 @@ GH_TAGNAME=	f7e272ab8726ed6a205b46d6723cc91aa9d63be1
 
 NO_CHECKSUM=	yes
 
-USES=		nodejs:24,build,run \
+USES=		python:build \
+		nodejs:24,build,run \
 		npm:npm,fetch,extract,build
 
 NPM_PREFETCH=	yes
@@ -29,7 +30,7 @@ STAGE_APPDIR=	${STAGEDIR}${APPDIR}
 
 do-build:
 	cd ${WRKSRC} && \
-		${SETENV} ${MAKE_ENV} \
+		${SETENV} ${MAKE_ENV} npm_config_python=${PYTHON_CMD} \
 		${NPM_REBUILD_CMD} ${NPM_REBUILD_FLAGS}
 
 do-install:
