@@ -12,8 +12,8 @@ rcvar="thelounge_enable"
 load_rc_config "${name}"
 
 : ${thelounge_enable:="NO"}
-: ${thelounge_user:="thelounge"}
-: ${thelounge_group:="thelounge"}
+: ${thelounge_user:="www"}
+: ${thelounge_group:="www"}
 : ${thelounge_data_dir:="/var/db/thelounge"}
 : ${thelounge_log_file:="/var/log/thelounge.log"}
 

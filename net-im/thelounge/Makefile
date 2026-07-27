@@ -25,9 +25,6 @@ NPM_EXTRACT=	yes
 USE_RC_SUBR=	thelounge
 SUB_FILES=	pkg-message
 
-USERS=		thelounge
-GROUPS=		thelounge
-
 APPDIR=		${PREFIX}/libexec/${PORTNAME}
 STAGE_APPDIR=	${STAGEDIR}${APPDIR}
 
