@@ -30,7 +30,10 @@ STAGE_APPDIR=	${STAGEDIR}${APPDIR}
 
 do-build:
 	cd ${WRKSRC} && \
-		${SETENV} ${MAKE_ENV} npm_config_python=${PYTHON_CMD} \
+		${SETENV} ${MAKE_ENV} \
+		npm_config_python=${PYTHON_CMD} \
+		npm_config_nodedir=${LOCALBASE} \
+		npm_config_build_from_source=true \
 		${NPM_REBUILD_CMD} ${NPM_REBUILD_FLAGS}
 
 do-install:
