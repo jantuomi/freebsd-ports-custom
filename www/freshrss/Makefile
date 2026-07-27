@@ -23,9 +23,8 @@ USE_PHP=	ctype curl dom filter gd iconv mbstring pdo pdo_sqlite \
 NO_ARCH=	yes
 NO_BUILD=	yes
 
-PLIST_SUB=	WWWGRP=${WWWGRP} \
-		WWWOWN=${WWWOWN} \
-		WWWDIR=${WWWDIR:S,${PREFIX}/,,}
+PLIST_SUB+=	WWWGRP=${WWWGRP} \
+		WWWOWN=${WWWOWN}
 
 SUB_FILES=	pkg-message nginx.conf.sample
 SUB_LIST=	WWWDIR=${WWWDIR}
