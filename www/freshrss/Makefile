@@ -31,10 +31,15 @@ SUB_LIST=	WWWDIR=${WWWDIR}
 
 do-install:
 	@${MKDIR} ${STAGEDIR}${WWWDIR}
-	(cd ${WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${WWWDIR} \
-		"! -name .git* ! -name Docker* ! -name docker-compose* \
-		 ! -path ./.github* ! -name CHANGELOG.md ! -name README.md \
-		 ! -name CONTRIBUTING.md ! -name LICENSE")
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${WWWDIR})
+	${RM} -rf ${STAGEDIR}${WWWDIR}/.git*
+	${RM} -rf ${STAGEDIR}${WWWDIR}/.github
+	${RM} -rf ${STAGEDIR}${WWWDIR}/Docker*
+	${RM} -rf ${STAGEDIR}${WWWDIR}/docker-compose*
+	${RM} -f ${STAGEDIR}${WWWDIR}/CHANGELOG.md
+	${RM} -f ${STAGEDIR}${WWWDIR}/README.md
+	${RM} -f ${STAGEDIR}${WWWDIR}/CONTRIBUTING.md
+	${RM} -f ${STAGEDIR}${WWWDIR}/LICENSE
 	@${MKDIR} ${STAGEDIR}/var/db/freshrss
 	@${LN} -sf /var/db/freshrss ${STAGEDIR}${WWWDIR}/data
 	${INSTALL_DATA} ${WRKDIR}/nginx.conf.sample \
