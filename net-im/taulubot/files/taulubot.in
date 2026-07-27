@@ -43,7 +43,7 @@ taulubot_start()
 
 	daemon -p "${pidfile}" -o /var/log/taulubot.log env \
 		PATH=%%PREFIX%%/bin:/usr/local/bin:/usr/bin:/bin \
-		PYTHONPATH=%%PREFIX%%/taulubot/vendor:%%PREFIX%%/taulubot/app \
+		PYTHONPATH=%%PREFIX%%/taulubot/app \
 		BOT_TOKEN="${BOT_TOKEN}" \
 		PHOTOS_DIR="${taulubot_photos_dir}" \
 		%%PYTHON_CMD%% %%PREFIX%%/taulubot/app/taulubot.py

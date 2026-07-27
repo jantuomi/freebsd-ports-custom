@@ -1,5 +1,6 @@
 PORTNAME=	taulubot
 PORTVERSION=	1.0.0
+PORTREVISION=	1
 CATEGORIES=	net-im
 
 MAINTAINER=	jan@jantuomi.fi
@@ -18,7 +19,8 @@ NO_BUILD=	yes
 USES=		python:3.11+
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}aiohttp>0:www/py-aiohttp@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pillow>0:graphics/py-pillow@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}python-dotenv>0:www/py-python-dotenv@${PY_FLAVOR}
+		${PYTHON_PKGNAMEPREFIX}python-dotenv>0:www/py-python-dotenv@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}urllib3>0:net/py-urllib3@${PY_FLAVOR}
 
 SUB_FILES=	pkg-message
 SUB_LIST=	PYTHON_CMD=${PYTHON_CMD}
