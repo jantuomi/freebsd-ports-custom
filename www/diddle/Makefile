@@ -1,5 +1,6 @@
 PORTNAME=	diddle
 PORTVERSION=	1.0.0
+PORTREVISION=	1
 CATEGORIES=	www
 
 MAINTAINER=	jan@jantuomi.fi
@@ -22,6 +23,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}flask>0:www/py-flask@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}gunicorn>0:www/py-gunicorn@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}python-dotenv>0:www/py-python-dotenv@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyyaml>0:devel/py-pyyaml@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}ua-parser>0:www/py-ua-parser@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}user-agents>0:www/py-user-agents@${PY_FLAVOR}
 

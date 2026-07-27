@@ -34,16 +34,16 @@ diddle_start()
 
 	# Run migrations
 	daemon -f env \
-		PYTHONPATH=%%PREFIX%%/diddle/vendor:%%PREFIX%%/diddle/app \
+		PYTHONPATH=%%PREFIX%%/diddle/app \
 		%%PYTHON_CMD%% %%PREFIX%%/diddle/app/apply_migrations.py
 
 	sleep 1
 
 	daemon -p "${pidfile}" -o /var/log/diddle.log env \
 		PATH=%%PREFIX%%/bin:/usr/local/bin:/usr/bin:/bin \
-		PYTHONPATH=%%PREFIX%%/diddle/vendor:%%PREFIX%%/diddle/app \
+		PYTHONPATH=%%PREFIX%%/diddle/app \
 		ENV_FILE="${diddle_env_file}" \
-		%%PREFIX%%/diddle/vendor/bin/gunicorn \
+		%%PREFIX%%/bin/gunicorn \
 		--bind "${diddle_bind}" \
 		-w "${diddle_workers}" \
 		app:app
