@@ -1,5 +1,6 @@
 PORTNAME=	hommabot
 DISTVERSION=	2.1.0
+PORTREVISION=	2
 CATEGORIES=	net-im
 
 MAINTAINER=	jan@jantuomi.fi
@@ -12,8 +13,6 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	jantuomi
 GH_PROJECT=	hommabot2
 GH_TAGNAME=	f7e272ab8726ed6a205b46d6723cc91aa9d63be1
-
-NO_CHECKSUM=	yes
 
 USES=		python:build \
 		nodejs:24,build,run \
@@ -46,8 +45,7 @@ do-install:
 		${STAGE_APPDIR}/
 	(cd ${WRKSRC} && \
 		${COPYTREE_SHARE} src ${STAGE_APPDIR})
-	(cd ${WRKSRC} && \
-		${COPYTREE_SHARE} node_modules ${STAGE_APPDIR})
+	cd ${WRKSRC} && ${TAR} -cf - node_modules | ${TAR} -xf - -C ${STAGE_APPDIR}
 
 post-install:
 	@(cd ${STAGEDIR}${PREFIX} && \

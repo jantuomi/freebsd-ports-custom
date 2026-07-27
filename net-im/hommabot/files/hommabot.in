@@ -19,8 +19,8 @@ load_rc_config "${name}"
 
 pidfile="/var/run/${name}.pid"
 procname="/usr/sbin/daemon"
-command="/usr/sbin/daemon"
 
+start_precmd="${name}_prestart"
 start_cmd="${name}_start"
 
 hommabot_prestart()
@@ -48,14 +48,17 @@ hommabot_start()
 {
 	local bot_token
 
-	hommabot_prestart || return 1
-
 	if check_pidfile "${pidfile}" "${procname}" >/dev/null; then
 		echo "${name} is already running."
 		return 1
 	fi
 
 	bot_token=$(cat "${hommabot_token_file}") || return 1
+
+	if [ -z "${bot_token}" ]; then
+		echo "${name}: token file ${hommabot_token_file} is empty"
+		return 1
+	fi
 
 	cd "%%PREFIX%%/libexec/hommabot" || {
 		echo "${name}: cannot change to %%PREFIX%%/libexec/hommabot"
@@ -64,8 +67,9 @@ hommabot_start()
 
 	echo "Starting ${name}."
 
-	exec /usr/sbin/daemon \
+	/usr/sbin/daemon \
 		-f \
+		-H \
 		-P "${pidfile}" \
 		-o "${hommabot_log_file}" \
 		/usr/bin/env \
