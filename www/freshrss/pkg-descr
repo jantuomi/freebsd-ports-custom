@@ -1,0 +1,4 @@
+FreshRSS is a free, self-hostable feeds aggregator. It supports RSS and
+Atom feeds, and can connect to external APIs. It is lightweight, easy to
+use, and offers features such as multi-user support, an API for mobile
+apps, WebSub, and a CLI for administration.

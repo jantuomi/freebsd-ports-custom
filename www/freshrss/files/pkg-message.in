@@ -1,0 +1,5 @@
+[
+{
+  "message": "\nFreshRSS has been installed to %%WWWDIR%%.\n\nTo complete the setup:\n\n  1. Configure nginx:\n     cp %%PREFIX%%/etc/nginx-freshrss.conf.sample %%PREFIX%%/etc/nginx/nginx.conf\n     Edit server_name and paths as needed.\n\n  2. Configure PHP-FPM:\n     cp %%PREFIX%%/etc/php-fpm-freshrss.conf.sample %%PREFIX%%/etc/php-fpm.d/www.conf\n     mkdir -p /var/run/php\n\n  3. Enable services:\n     sysrc nginx_enable=YES\n     sysrc php_fpm_enable=YES\n     service nginx start\n     service php-fpm start\n\n  4. Visit http://your-server/ to run the web installer.\n\n  Data is stored in /var/db/freshrss (owned by www:www).\n\n  Add a cron job for feed updates:\n    */15 * * * * www %%PREFIX%%/bin/php %%WWWDIR%%/app/actualize_script.php > /tmp/FreshRSS.log 2>&1\n"
+}
+]
