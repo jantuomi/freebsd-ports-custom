@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# PROVIDE: komga
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="komga"
+rcvar="komga_enable"
+
+load_rc_config "${name}"
+
+: ${komga_enable:="NO"}
+: ${komga_port:="80"}
+: ${komga_data_dir:="/var/db/komga"}
+: ${komga_log_file:="/var/log/komga.log"}
+: ${komga_java_opts:=""}
+
+pidfile="/var/run/${name}.pid"
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+komga_start()
+{
+	if [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") 2>/dev/null; then
+		echo "${name} is already running."
+		return 1
+	fi
+
+	install -d -m 0750 "${komga_data_dir}" || return 1
+
+	echo "Starting ${name}."
+
+	/usr/sbin/daemon \
+		-f \
+		-p "${pidfile}" \
+		-o "${komga_log_file}" \
+		%%JAVA_HOME%%/bin/java ${komga_java_opts} \
+		-jar %%JARFILE%% \
+		--server.port=${komga_port} \
+		--komga.config-dir=${komga_data_dir}
+}
+
+komga_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}."
+		kill $(cat "${pidfile}") 2>/dev/null
+		rm -f "${pidfile}"
+	else
+		echo "${name} is not running."
+	fi
+}
+
+komga_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")."
+	else
+		rm -f "${pidfile}"
+		echo "${name} is not running."
+		return 1
+	fi
+}
+
+run_rc_command "$1"

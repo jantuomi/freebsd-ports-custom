@@ -1,0 +1,5 @@
+[
+{
+  "message": "\nKomga has been installed.\n\nTo get started:\n\n  sysrc komga_enable=YES\n  service komga start\n\nThe web interface will be available at http://localhost:80/\n\nConfiguration:\n  sysrc komga_port=8080          # Change listen port\n  sysrc komga_data_dir=/var/db/komga  # Config/database directory\n  sysrc komga_java_opts=\"-Xmx512m\"    # JVM options\n\nMount your library directories into the jail and configure\nthem through the Komga web interface.\n"
+}
+]
