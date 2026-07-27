@@ -1,0 +1,5 @@
+[
+{
+  "message": "\nThe Lounge has been installed.\n\nTo get started:\n\n  1. Copy the sample config:\n     cp %%PREFIX%%/etc/thelounge.conf.sample /var/db/thelounge/config.js\n\n  2. Add a user:\n     env THELOUNGE_HOME=/var/db/thelounge %%PREFIX%%/bin/thelounge add <username>\n\n  3. Enable and start the service:\n     sysrc thelounge_enable=YES\n     service thelounge start\n\n  The web interface will be available at http://localhost:9000/\n"
+}
+]

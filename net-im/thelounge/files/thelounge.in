@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# PROVIDE: thelounge
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="thelounge"
+rcvar="thelounge_enable"
+
+load_rc_config "${name}"
+
+: ${thelounge_enable:="NO"}
+: ${thelounge_user:="thelounge"}
+: ${thelounge_group:="thelounge"}
+: ${thelounge_data_dir:="/var/db/thelounge"}
+: ${thelounge_log_file:="/var/log/thelounge.log"}
+
+pidfile="/var/run/${name}.pid"
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+status_cmd="${name}_status"
+
+thelounge_start()
+{
+	if [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") 2>/dev/null; then
+		echo "${name} is already running."
+		return 1
+	fi
+
+	install -d -o "${thelounge_user}" -g "${thelounge_group}" -m 0750 \
+		"${thelounge_data_dir}" || return 1
+
+	if [ ! -e "${thelounge_log_file}" ]; then
+		install -o "${thelounge_user}" -g "${thelounge_group}" -m 0640 \
+			/dev/null "${thelounge_log_file}" || return 1
+	fi
+
+	echo "Starting ${name}."
+
+	/usr/sbin/daemon \
+		-f \
+		-p "${pidfile}" \
+		-o "${thelounge_log_file}" \
+		-u "${thelounge_user}" \
+		/usr/bin/env \
+		PATH="%%PREFIX%%/bin:/usr/bin:/bin" \
+		THELOUNGE_HOME="${thelounge_data_dir}" \
+		%%PREFIX%%/bin/node %%PREFIX%%/libexec/thelounge/index.js start
+}
+
+thelounge_stop()
+{
+	if [ -f "${pidfile}" ]; then
+		echo "Stopping ${name}."
+		kill $(cat "${pidfile}") 2>/dev/null
+		rm -f "${pidfile}"
+	else
+		echo "${name} is not running."
+	fi
+}
+
+thelounge_status()
+{
+	if [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") 2>/dev/null; then
+		echo "${name} is running as pid $(cat "${pidfile}")."
+	else
+		rm -f "${pidfile}"
+		echo "${name} is not running."
+		return 1
+	fi
+}
+
+run_rc_command "$1"
