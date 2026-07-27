@@ -14,6 +14,8 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	FreshRSS
 GH_PROJECT=	FreshRSS
 
+NO_CHECKSUM=	yes
+
 USE_PHP=	ctype curl dom filter gd iconv mbstring pdo pdo_sqlite \
 		phar posix session simplexml sqlite3 tokenizer xml \
 		xmlreader xmlwriter zip
