@@ -7,7 +7,7 @@
 . /etc/rc.subr
 
 name="hommabot"
-rcvar="hommabot_enable"
+rcvar="${name}_enable"
 
 load_rc_config "${name}"
 
@@ -35,12 +35,21 @@ hommabot_prestart()
 		return 1
 	fi
 
-	install -d -m 0700 "${hommabot_data_dir}" || return 1
+	install -d -m 0700 "${hommabot_data_dir}" || {
+		echo "${name}: cannot create ${hommabot_data_dir}"
+		return 1
+	}
 
 	if [ ! -e "${hommabot_log_file}" ]; then
-		install -m 0600 /dev/null "${hommabot_log_file}" || return 1
+		install -m 0600 /dev/null "${hommabot_log_file}" || {
+			echo "${name}: cannot create ${hommabot_log_file}"
+			return 1
+		}
 	else
-		chmod 0600 "${hommabot_log_file}" || return 1
+		chmod 0600 "${hommabot_log_file}" || {
+			echo "${name}: cannot set permissions on ${hommabot_log_file}"
+			return 1
+		}
 	fi
 }
 
@@ -48,17 +57,10 @@ hommabot_start()
 {
 	local bot_token
 
-	if check_pidfile "${pidfile}" "${procname}" >/dev/null; then
-		echo "${name} is already running."
+	bot_token=$(cat "${hommabot_token_file}") || {
+		echo "${name}: cannot read ${hommabot_token_file}"
 		return 1
-	fi
-
-	bot_token=$(cat "${hommabot_token_file}") || return 1
-
-	if [ -z "${bot_token}" ]; then
-		echo "${name}: token file ${hommabot_token_file} is empty"
-		return 1
-	fi
+	}
 
 	cd "%%PREFIX%%/libexec/hommabot" || {
 		echo "${name}: cannot change to %%PREFIX%%/libexec/hommabot"
@@ -67,7 +69,7 @@ hommabot_start()
 
 	echo "Starting ${name}."
 
-	/usr/sbin/daemon \
+	exec /usr/sbin/daemon \
 		-f \
 		-H \
 		-P "${pidfile}" \
