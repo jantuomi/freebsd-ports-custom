@@ -23,7 +23,7 @@ USE_PHP=	ctype curl dom filter gd iconv mbstring pdo pdo_sqlite \
 NO_ARCH=	yes
 NO_BUILD=	yes
 
-PLIST_SUB+=	WWWGRP=${WWWGRP} \
+PLIST_SUB=	WWWGRP=${WWWGRP} \
 		WWWOWN=${WWWOWN}
 
 SUB_FILES=	pkg-message nginx.conf.sample
@@ -52,10 +52,10 @@ do-install:
 
 post-install:
 	@(cd ${STAGEDIR}${WWWDIR} && \
-		${FIND} . -type f -o -type l | ${SED} 's|^\./|%%WWWDIR%%/|' | \
+		${FIND} . -type f -o -type l | ${SED} 's|^\./|${WWWDIR_REL}/|' | \
 		${SORT}) >> ${TMPPLIST}
 	@${ECHO_CMD} "@sample etc/nginx-freshrss.conf.sample" >> ${TMPPLIST}
 	@${ECHO_CMD} "@sample etc/php-fpm-freshrss.conf.sample" >> ${TMPPLIST}
-	@${ECHO_CMD} "@dir(%%WWWOWN%%,%%WWWGRP%%,0750) /var/db/freshrss" >> ${TMPPLIST}
+	@${ECHO_CMD} "@dir(${WWWOWN},${WWWGRP},0750) /var/db/freshrss" >> ${TMPPLIST}
 
 .include <bsd.port.mk>
