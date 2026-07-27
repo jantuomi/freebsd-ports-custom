@@ -24,22 +24,26 @@ NO_ARCH=	yes
 NO_BUILD=	yes
 
 PLIST_SUB=	WWWGRP=${WWWGRP} \
-		WWWOWN=${WWWOWN}
+		WWWOWN=${WWWOWN} \
+		WWWDIR=${WWWDIR:S,${PREFIX}/,,}
 
 SUB_FILES=	pkg-message nginx.conf.sample
 SUB_LIST=	WWWDIR=${WWWDIR}
 
 do-install:
 	@${MKDIR} ${STAGEDIR}${WWWDIR}
-	(cd ${WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${WWWDIR})
-	${RM} -rf ${STAGEDIR}${WWWDIR}/.git*
-	${RM} -rf ${STAGEDIR}${WWWDIR}/.github
-	${RM} -rf ${STAGEDIR}${WWWDIR}/Docker*
-	${RM} -rf ${STAGEDIR}${WWWDIR}/docker-compose*
-	${RM} -f ${STAGEDIR}${WWWDIR}/CHANGELOG.md
-	${RM} -f ${STAGEDIR}${WWWDIR}/README.md
-	${RM} -f ${STAGEDIR}${WWWDIR}/CONTRIBUTING.md
-	${RM} -f ${STAGEDIR}${WWWDIR}/LICENSE
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} app ${STAGEDIR}${WWWDIR})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} cli ${STAGEDIR}${WWWDIR})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} extensions ${STAGEDIR}${WWWDIR})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} lib ${STAGEDIR}${WWWDIR})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} p ${STAGEDIR}${WWWDIR})
+	${INSTALL_DATA} ${WRKSRC}/config.default.php ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/config-user.default.php ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/constants.php ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/index.html ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/index.php ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/force-https.default.txt ${STAGEDIR}${WWWDIR}/
+	${INSTALL_DATA} ${WRKSRC}/opml.default.xml ${STAGEDIR}${WWWDIR}/
 	@${MKDIR} ${STAGEDIR}/var/db/freshrss
 	@${LN} -sf /var/db/freshrss ${STAGEDIR}${WWWDIR}/data
 	${INSTALL_DATA} ${WRKDIR}/nginx.conf.sample \
