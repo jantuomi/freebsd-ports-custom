@@ -1,5 +1,6 @@
 PORTNAME=	expense-tracker
 PORTVERSION=	1.0.1
+PORTREVISION=	1
 CATEGORIES=	www
 
 MAINTAINER=	jan@jantuomi.fi
@@ -17,7 +18,8 @@ NO_ARCH=	yes
 NO_BUILD=	yes
 
 USES=		python:3.11+
-RUN_DEPENDS=	${PYTHON_CMD}:lang/python${PYTHON_SUFFIX}
+RUN_DEPENDS=	${PYTHON_CMD}:lang/python${PYTHON_SUFFIX} \
+		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR}
 
 SUB_LIST=	PYTHON_CMD=${PYTHON_CMD}
 
