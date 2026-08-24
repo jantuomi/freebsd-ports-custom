@@ -52,8 +52,6 @@ do-install:
 		${STAGEDIR}${PREFIX}/etc/php-fpm-freshrss.conf.sample
 
 post-install:
-	@${CHOWN} -R ${WWWOWN}:${WWWGRP} ${STAGEDIR}${WWWDIR}
-	@${CHOWN} -R ${WWWOWN}:${WWWGRP} ${STAGEDIR}/var/db/freshrss
 	@(cd ${STAGEDIR}${WWWDIR} && \
 		${FIND} . -type f -o -type l | ${SED} 's|^\./|@(${WWWOWN},${WWWGRP},) ${WWWDIR_REL}/|' | \
 		${SORT}) >> ${TMPPLIST}
