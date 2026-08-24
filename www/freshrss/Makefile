@@ -1,6 +1,6 @@
 PORTNAME=	freshrss
 DISTVERSION=	1.29.1
-PORTREVISION=	1
+PORTREVISION=	2
 CATEGORIES=	www
 PKGNAMESUFFIX=	${PHP_PKGNAMESUFFIX}
 
@@ -52,9 +52,12 @@ do-install:
 		${STAGEDIR}${PREFIX}/etc/php-fpm-freshrss.conf.sample
 
 post-install:
+	@${CHOWN} -R ${WWWOWN}:${WWWGRP} ${STAGEDIR}${WWWDIR}
+	@${CHOWN} -R ${WWWOWN}:${WWWGRP} ${STAGEDIR}/var/db/freshrss
 	@(cd ${STAGEDIR}${WWWDIR} && \
-		${FIND} . -type f -o -type l | ${SED} 's|^\./|${WWWDIR_REL}/|' | \
+		${FIND} . -type f -o -type l | ${SED} 's|^\./|@(${WWWOWN},${WWWGRP},) ${WWWDIR_REL}/|' | \
 		${SORT}) >> ${TMPPLIST}
+	@${ECHO_CMD} "@dir(${WWWOWN},${WWWGRP},) ${WWWDIR_REL}" >> ${TMPPLIST}
 	@${ECHO_CMD} "@sample etc/nginx-freshrss.conf.sample" >> ${TMPPLIST}
 	@${ECHO_CMD} "@sample etc/php-fpm-freshrss.conf.sample" >> ${TMPPLIST}
 	@${ECHO_CMD} "@dir(${WWWOWN},${WWWGRP},0750) /var/db/freshrss" >> ${TMPPLIST}
