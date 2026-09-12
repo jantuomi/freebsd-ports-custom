@@ -2,7 +2,7 @@ PORTNAME=	aggro
 PORTVERSION=	1.0.0
 CATEGORIES=	www
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Configurable web content aggregator with alerting
 
 LICENSE=	MIT

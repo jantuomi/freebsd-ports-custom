@@ -4,7 +4,7 @@ CATEGORIES=	databases python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Tiny document oriented database
 WWW=		https://github.com/msiemens/tinydb
 

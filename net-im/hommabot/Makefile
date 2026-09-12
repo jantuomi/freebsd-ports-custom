@@ -3,7 +3,7 @@ DISTVERSION=	2.1.0
 PORTREVISION=	3
 CATEGORIES=	net-im
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Telegram bot for household task management
 WWW=		https://github.com/jantuomi/hommabot2
 

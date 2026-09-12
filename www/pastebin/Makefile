@@ -2,7 +2,7 @@ PORTNAME=	pastebin
 PORTVERSION=	2.0.2
 CATEGORIES=	www
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Minimal pastebin service
 WWW=		https://github.com/w4/bin
 

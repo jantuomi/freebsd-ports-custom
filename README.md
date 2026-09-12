@@ -10,4 +10,4 @@ OVERLAYS=/usr/local/ports
 
 ## Author
 
-Jan Tuomi <<jan@jantuomi.fi>>
+Jan Tuomi <<jan@sydanviita.fi>>

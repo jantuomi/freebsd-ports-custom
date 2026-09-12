@@ -4,7 +4,7 @@ CATEGORIES=	www python
 MASTER_SITES=	PYPI
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Python port of Browserscope's user agent parser
 WWW=		https://github.com/ua-parser/uap-python
 

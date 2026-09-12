@@ -4,7 +4,7 @@ PORTREVISION=	2
 CATEGORIES=	www
 PKGNAMESUFFIX=	${PHP_PKGNAMESUFFIX}
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Self-hosted RSS feed aggregator
 WWW=		https://freshrss.org/
 

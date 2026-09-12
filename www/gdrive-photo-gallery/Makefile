@@ -3,7 +3,7 @@ PORTVERSION=	1.0.0
 PORTREVISION=	1
 CATEGORIES=	www
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Google Drive photo gallery web app
 
 LICENSE=	MIT

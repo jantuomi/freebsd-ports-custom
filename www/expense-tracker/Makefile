@@ -3,7 +3,7 @@ PORTVERSION=	1.0.1
 PORTREVISION=	1
 CATEGORIES=	www
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Minimal personal expense tracker
 
 LICENSE=	AGPLv3

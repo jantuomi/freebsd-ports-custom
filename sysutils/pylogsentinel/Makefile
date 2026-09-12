@@ -3,7 +3,7 @@ PORTVERSION=	0.5.1
 CATEGORIES=	sysutils
 MASTER_SITES=	PYPI
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Lightweight cron-friendly log monitoring utility
 
 LICENSE=	MIT

@@ -3,7 +3,7 @@ PORTVERSION=	1.0.0
 PORTREVISION=	1
 CATEGORIES=	net-im
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Telegram bot for funny pictures of paintings haha
 
 LICENSE=	ISCL

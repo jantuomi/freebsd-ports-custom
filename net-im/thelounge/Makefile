@@ -2,7 +2,7 @@ PORTNAME=	thelounge
 DISTVERSION=	4.5.2
 CATEGORIES=	net-im
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Modern, responsive, cross-platform, self-hosted IRC client
 WWW=		https://thelounge.chat/
 

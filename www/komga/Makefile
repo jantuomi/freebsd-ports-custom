@@ -6,7 +6,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}.jar
 EXTRACT_SUFX=	.jar
 EXTRACT_ONLY=
 
-MAINTAINER=	jan@jantuomi.fi
+MAINTAINER=	jan@sydanviita.fi
 COMMENT=	Media server for comics, mangas, BDs, magazines, and eBooks
 WWW=		https://komga.org/
 
