@@ -1,5 +1,6 @@
 PORTNAME=	aggro
 PORTVERSION=	1.0.0
+PORTREVISION=	2
 CATEGORIES=	www
 
 MAINTAINER=	jan@sydanviita.fi
@@ -17,7 +18,7 @@ NO_ARCH=	yes
 NO_BUILD=	yes
 
 USES=		python:3.11+
-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}beautifulsoup>0:www/py-beautifulsoup@${PY_FLAVOR} \
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}beautifulsoup4>0:www/py-beautifulsoup4@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}bottle>0:www/py-bottle@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}feedparser>0:textproc/py-feedparser@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}lxml>0:devel/py-lxml@${PY_FLAVOR} \
