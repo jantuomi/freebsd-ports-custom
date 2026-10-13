@@ -1,5 +1,5 @@
-TIMESTAMP = 1785154654
-SHA256 (hommabot-2.1.0-node-modules.tar.gz) = 8c07a489ada755ec982be6ef2b1d88cd1832a20df06f47679a6906b169945afe
-SIZE (hommabot-2.1.0-node-modules.tar.gz) = 12502588
-SHA256 (jantuomi-hommabot2-2.1.0-f7e272ab8726ed6a205b46d6723cc91aa9d63be1_GH0.tar.gz) = 6ea4e7b1c14af1c1e32051e6d574c6c41613c4aaf62ff77e5d952ea6a25a1958
-SIZE (jantuomi-hommabot2-2.1.0-f7e272ab8726ed6a205b46d6723cc91aa9d63be1_GH0.tar.gz) = 16744
+TIMESTAMP = 1791919774
+SHA256 (hommabot-2.2.0-node-modules.tar.gz) = 6ec0051e9a6fbb77be19b979dc4c283c5323b76676f84b392a1e9ecf43daa0ec
+SIZE (hommabot-2.2.0-node-modules.tar.gz) = 17138841
+SHA256 (jantuomi-hommabot2-2.2.0_GH0.tar.gz) = 054644f67fbcbf173b8a93a0cb4feba88555a944b96363ac65cb7da7bb89b36a
+SIZE (jantuomi-hommabot2-2.2.0_GH0.tar.gz) = 45145
