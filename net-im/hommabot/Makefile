@@ -1,5 +1,5 @@
 PORTNAME=	hommabot
-DISTVERSION=	2.2.2
+DISTVERSION=	2.2.3
 #PORTREVISION=	1
 CATEGORIES=	net-im
 
@@ -12,7 +12,7 @@ LICENSE=	ISC
 USE_GITHUB=	yes
 GH_ACCOUNT=	jantuomi
 GH_PROJECT=	hommabot2
-GH_TAGNAME=	2.2.2
+GH_TAGNAME=	${DISTVERSION}
 
 USES=		compiler:c++20-lang gmake python:build \
 		nodejs:24,build,run \
