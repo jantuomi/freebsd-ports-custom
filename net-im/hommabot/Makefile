@@ -1,5 +1,5 @@
 PORTNAME=	hommabot
-DISTVERSION=	2.2.1
+DISTVERSION=	2.2.2
 #PORTREVISION=	1
 CATEGORIES=	net-im
 
@@ -12,7 +12,7 @@ LICENSE=	ISC
 USE_GITHUB=	yes
 GH_ACCOUNT=	jantuomi
 GH_PROJECT=	hommabot2
-GH_TAGNAME=	2.2.0
+GH_TAGNAME=	2.2.2
 
 USES=		compiler:c++20-lang gmake python:build \
 		nodejs:24,build,run \
@@ -34,8 +34,13 @@ do-build:
 		PYTHON=${PYTHON_CMD} \
 		npm_package_config_node_gyp_nodedir=${LOCALBASE} \
 		npm_package_config_node_gyp_make=${MAKE_CMD} \
-		npm_config_build_from_source=true \
 		${NPM_REBUILD_CMD} ${NPM_REBUILD_FLAGS}
+	cd ${WRKSRC}/node_modules/better-sqlite3 && \
+		${SETENV} ${MAKE_ENV} \
+		PYTHON=${PYTHON_CMD} \
+		npm_package_config_node_gyp_nodedir=${LOCALBASE} \
+		npm_package_config_node_gyp_make=${MAKE_CMD} \
+		${NPM_CMDNAME} --offline run build-release
 
 do-install:
 	${MKDIR} ${STAGE_APPDIR}
